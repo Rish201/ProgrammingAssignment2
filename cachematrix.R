@@ -1,33 +1,25 @@
-##cachematrix caches the input matrix
-
- cachematrix <- function(x = matrix()) {
-  m<-NULL
-  set<-function(y){
-  x<<-y
-  m<<-NULL
-}
-get<-function() x
-setmatrix<-function(solve) m<<- solve
-getmatrix<-function() m
-list(set=set, get=get,
-   setmatrix=setmatrix,
-   getmatrix=getmatrix)
+makeCacheMatrix <- function(x = matrix()) {
+ s <- NULL
+ set <- function(y) {
+                      x <<- y
+                      s <<- NULL
+                    }
+ get <- function() x
+ setinverse <- function(solve) s <<- solve
+ getinverse <- function() s
+ list(set = set, get = get,
+ setinverse = setinverse,
+ getinverse = getinverse)
 }
 
-
-
-
-## Write a short comment describing this function
-
-solvecache <- function(x=matrix(), ...) {
-    m<-x$getmatrix()
-    if(!is.null(m)){
-      message("getting cached data")
-      return(m)
-    }
-    matrix <- x$get()
-    m<-solve(matrix, ...)
-    x$setmatrix(m)
-    m
+cacheSolve <- function(x, ...) {
+ s <- x$getinverse()
+ if(!is.null(s)) {
+                 message("getting cached matrix")
+                 return(s)
+                 }
+  matrix <- x$get()
+  s <- solve(matrix, ...)
+ x$setinverse(s)
+ s
 }
-
